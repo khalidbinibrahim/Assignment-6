@@ -1,8 +1,9 @@
-const url = 'https://openapi.programming-hero.com/api/retro-forum/posts';
 const postContainer = document.getElementById('post-container');
+const searchField = document.getElementById('category-field');
+const loadingSpinner = document.getElementById('loading-spinner');
 
-const loadPosts = async () => {
-    const res = await fetch(url);
+const loadPosts = async (categoryName) => {
+    const res = await fetch(`https://openapi.programming-hero.com/api/retro-forum/posts?category=${categoryName}`);
     const data = await res.json();
     const posts = data.posts;
     // console.log(posts);
@@ -11,6 +12,8 @@ const loadPosts = async () => {
 
 const displayPosts = posts => {
     // console.log(posts);
+    postContainer.textContent = '';
+
     posts.forEach(post => {
         console.log(post);
 
@@ -44,14 +47,29 @@ const displayPosts = posts => {
                 <p><i class="uil uil-clock-eight"></i> ${post.posted_time} min</p>
             </div>
             <div>
-                <a class="btn text-white bg-[#10b981] text-xl rounded-full"><i
+                <a id="bookmark" class="btn text-white bg-[#10b981] text-xl rounded-full"><i
                         class="uil uil-envelope-open"></i></a>
             </div>
         </div>
     </div>`;
 
-    postContainer.appendChild(postCard);
+        postContainer.appendChild(postCard);
     });
+
+    toggleLoading(false);
 }
 
-loadPosts();
+const handleSearch = () => {
+    toggleLoading(true);
+    const searchText = searchField.value;
+    // console.log(searchText);
+    loadPosts(searchText);
+}
+
+const toggleLoading = (isLoading) => {
+    if(isLoading) {
+        loadingSpinner.classList.remove('hidden');
+    }else {
+        loadingSpinner.classList.add('hidden');
+    }
+}

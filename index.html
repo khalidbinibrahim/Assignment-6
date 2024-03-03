@@ -56,9 +56,9 @@
                             <br> forum coffee mug!
                         </p>
                         <div class="flex flex-row">
-                            <input type="text" placeholder="Search here anything"
+                            <input id="category-field" type="text" placeholder="Search here anything"
                                 class="input input-bordered w-full max-w-xs text-[#03071280] rounded-3xl" />
-                            <a
+                            <a id="category-button" onclick="handleSearch()"
                                 class="btn text-white bg-[#797DFC] rounded-3xl px-8 py-2 font-bold text-xl border-none">Search</a>
                         </div>
                     </div>
@@ -90,6 +90,11 @@
                 <h1 class="font_mulish font-black text-[#12132D] text-5xl mb-6">Let's Discuss</h1>
                 <p class="font_inter text-[#03071280] font-normal text-xl">Yes, you can run unit tests and view the
                     results directly within the app. The <br> integrated testing features allow for a streamlined .</p>
+            </div>
+
+            <!-- LOADING SPINNER -->
+            <div id="loading-spinner" class="text-center hidden">
+                <span class="loading loading-spinner loading-lg"></span>
             </div>
 
             <div class="flex gap-6 items-center flex-col lg:flex-row">
@@ -125,7 +130,7 @@
                                     <p><i class="uil uil-clock-eight"></i> 5 min</p>
                                 </div>
                                 <div>
-                                    <a class="btn text-white bg-[#10b981] text-xl rounded-full"><i
+                                    <a id="bookmark" class="btn text-white bg-[#10b981] text-xl rounded-full"><i
                                             class="uil uil-envelope-open"></i></a>
                                 </div>
                             </div>
@@ -140,7 +145,7 @@
                                     class="fa-solid fa-check-double"></i></span> Mark as read (<span>0</span>)</p>
                     </div>
 
-                    <div class="flex flex-col gap-2 my-5">
+                    <div id="bookmark-container" class="flex flex-col gap-2 my-5">
                         <div class="flex gap-18 items-center p-3 rounded-xl bg-white">
                             <h3 class="font_mulish font-bold text-[#12132D]">10 Kids Unaware of Their Halloween Costume
                             </h3>
