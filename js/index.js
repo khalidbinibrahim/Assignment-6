@@ -1,4 +1,5 @@
 const postContainer = document.getElementById('post-container');
+const latestPostsContainer = document.getElementById('latest-posts-container');
 const searchField = document.getElementById('category-field');
 const loadingSpinner = document.getElementById('loading-spinner');
 
@@ -15,7 +16,7 @@ const displayPosts = posts => {
     postContainer.textContent = '';
 
     posts.forEach(post => {
-        console.log(post);
+        // console.log(post);
 
         const postCard = document.createElement('div');
         postCard.classList = `flex gap-6 items-center bg-[#f3f3f5] p-10 rounded-2xl`;
@@ -67,9 +68,44 @@ const handleSearch = () => {
 }
 
 const toggleLoading = (isLoading) => {
-    if(isLoading) {
+    if (isLoading) {
         loadingSpinner.classList.remove('hidden');
-    }else {
+    } else {
         loadingSpinner.classList.add('hidden');
     }
 }
+
+// const latestPosts = async () => {
+//     const res = await fetch('https://openapi.programming-hero.com/api/retro-forum/latest-posts');
+//     const data = await res.json();
+//     // console.log(data);
+//     showLatestPosts(data);
+// }
+
+// const showLatestPosts = posts => {
+//     posts.forEach(post => {
+//         const latestCard = document.createElement('div');
+//         latestCard.classList = `font_mulish p-6 border-solid border-2 border-[#12132D26] rounded-xl`;
+//         latestCard.innerHTML = `<div class="w-40 h-40 mb-6">
+//         <img src="images/joinforum.png" alt="">
+//     </div>
+//     <p class="text-[#03071280] font-medium mb-4"><i class="fa-regular fa-calendar-check"></i> 29 January
+//         2024</p>
+//     <h4 class="font-bold text-[#12132D] mb-3">What will a mars habitat force that impact in our daily
+//         life!!!</h4>
+//     <p class="font-normal text-[#12132D99] mb-4">Yes, you can run unit tests and view the results
+//         directly within the app. </p>
+//     <div class="flex gap-4 items-center">
+//         <div class="w-14 h-14 rounded-full">
+//             <img src="images/joinforum.png" alt="">
+//         </div>
+
+//         <div>
+//             <h5 class="font-bold text-[#12132D]">Cameron Williamson</h5>
+//             <p class="text-[#12132D99] font-normal text-[14px]">Unknown</p>
+//         </div>
+//     </div>`;
+
+//         latestPostsContainer.appendChild(latestCard);
+//     });
+// }
