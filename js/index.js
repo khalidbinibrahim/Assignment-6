@@ -4,7 +4,7 @@ const bookMarkContainer = document.getElementById('bookmark-container');
 const searchField = document.getElementById('category-field');
 const loadingSpinner = document.getElementById('loading-spinner');
 
-const loadPosts = async (categoryName) => {
+const loadPosts = async (categoryName = 'comedy') => {
     const res = await fetch(`https://openapi.programming-hero.com/api/retro-forum/posts?category=${categoryName}`);
     const data = await res.json();
     const posts = data.posts;
@@ -143,4 +143,5 @@ const displayLatestPosts = posts => {
     });
 }
 
+loadPosts();
 latestPosts();
