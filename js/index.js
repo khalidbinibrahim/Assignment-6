@@ -1,5 +1,6 @@
 const postContainer = document.getElementById('post-container');
 const latestPostsContainer = document.getElementById('latest-posts-container');
+const bookMarkContainer = document.getElementById('bookmark-container');
 const searchField = document.getElementById('category-field');
 const loadingSpinner = document.getElementById('loading-spinner');
 
@@ -54,6 +55,29 @@ const displayPosts = posts => {
         </div>
     </div>`;
 
+        const redGreenParagraph = postCard.querySelector('#red-green');
+        if (!post.isActive) {
+            redGreenParagraph.style.backgroundColor = '#FF3434';
+        } else {
+            redGreenParagraph.style.backgroundColor = '#10B981';
+        }
+
+        const bookmarkAnchor = postCard.querySelector('#bookmark');
+        bookmarkAnchor.addEventListener('click', () => {
+            const bookMarkCard = document.createElement('div');
+            bookMarkCard.classList = `flex gap-16 items-center p-3 rounded-xl bg-white`;
+            bookMarkCard.innerHTML = `<h3 class="font_mulish font-bold text-[#12132D]">${post.title}</h3>
+            <p class="font_inter font-medium text-[#03071280]"><i class="uil uil-eye"></i> ${post.view_count}</p>`;
+
+            const bookMarkCount = document.getElementById('bookmark-count');
+            let currentValue = parseInt(bookMarkCount.textContent);
+
+            currentValue += 1;
+            bookMarkCount.textContent = currentValue;
+
+            bookMarkContainer.appendChild(bookMarkCard);
+        });
+
         postContainer.appendChild(postCard);
     });
 
@@ -75,37 +99,48 @@ const toggleLoading = (isLoading) => {
     }
 }
 
-// const latestPosts = async () => {
-//     const res = await fetch('https://openapi.programming-hero.com/api/retro-forum/latest-posts');
-//     const data = await res.json();
-//     // console.log(data);
-//     showLatestPosts(data);
-// }
+const latestPosts = async () => {
+    try {
+        const res = await fetch('https://openapi.programming-hero.com/api/retro-forum/latest-posts');
+        if (!res.ok) {
+            throw new Error(`Failed to fetch data: ${res.status} ${res.statusText}`);
+        }
+        const data = await res.json();
+        displayLatestPosts(data);
+    } catch (error) {
+        console.error('Error fetching latest posts:', error);
+    }
+}
 
-// const showLatestPosts = posts => {
-//     posts.forEach(post => {
-//         const latestCard = document.createElement('div');
-//         latestCard.classList = `font_mulish p-6 border-solid border-2 border-[#12132D26] rounded-xl`;
-//         latestCard.innerHTML = `<div class="w-40 h-40 mb-6">
-//         <img src="images/joinforum.png" alt="">
-//     </div>
-//     <p class="text-[#03071280] font-medium mb-4"><i class="fa-regular fa-calendar-check"></i> 29 January
-//         2024</p>
-//     <h4 class="font-bold text-[#12132D] mb-3">What will a mars habitat force that impact in our daily
-//         life!!!</h4>
-//     <p class="font-normal text-[#12132D99] mb-4">Yes, you can run unit tests and view the results
-//         directly within the app. </p>
-//     <div class="flex gap-4 items-center">
-//         <div class="w-14 h-14 rounded-full">
-//             <img src="images/joinforum.png" alt="">
-//         </div>
+const displayLatestPosts = posts => {
+    if (!Array.isArray(posts)) {
+        console.error('Invalid data format: expected an array of posts');
+        return;
+    }
+    posts.forEach(post => {
+        // console.log(post)
+        const latestCard = document.createElement('div');
+        latestCard.classList = `font_mulish p-6 border-solid border-2 border-[#12132D26] rounded-xl`;
+        latestCard.innerHTML = `
+            <div class="mb-6">
+                <img class="w-72 h-60 rounded-xl" src="${post.cover_image}" alt="">
+            </div>
+            <p class="text-[#03071280] font-medium mb-4"><i class="fa-regular fa-calendar-check"></i> ${post.author.posted_date ? post.author.posted_date : 'No publish date'
+            }</p>
+            <h4 class="font-bold text-[#12132D] mb-3">${post.title}</h4>
+            <p class="font-normal text-[#12132D99] mb-4">${post.description}</p>
+            <div class="flex gap-4 items-center">
+                <div>
+                    <img class="w-14 h-14 rounded-full" src="${post.profile_image}" alt="">
+                </div>
+                <div>
+                    <h5 class="font-bold text-[#12132D]">${post.author.name}</h5>
+                    <p class="text-[#12132D99] font-normal text-[14px]">${post.author.designation ? post.author.designation : 'Unknown'}</p>
+                </div>
+            </div>`;
 
-//         <div>
-//             <h5 class="font-bold text-[#12132D]">Cameron Williamson</h5>
-//             <p class="text-[#12132D99] font-normal text-[14px]">Unknown</p>
-//         </div>
-//     </div>`;
+        latestPostsContainer.appendChild(latestCard);
+    });
+}
 
-//         latestPostsContainer.appendChild(latestCard);
-//     });
-// }
+latestPosts();
